@@ -1,0 +1,43 @@
+# build the basic development world
+RUN apt-get update && \
+    apt-get install -y apt-transport-https \
+                       build-essential \
+                       build-essential \
+                       dbus-x11 \
+                       dos2unix \
+                       emacs25 \
+                       fonts-inconsolata \
+                       git \
+                       konsole \
+                       libpython3.6-dev \
+                       openssh-server \
+                       python3.6 \
+                       python3.6-dev \
+                       software-properties-common \
+                       wget curl \
+                       x11-apps \
+                       firefox
+
+#: snapd allows easy install of hub, but building one inside a docker seems
+# like a nightmare https://ograblog.wordpress.com/2017/06/02/dock-a-snap/
+# So I still want to use `hub`, so I need another approch
+#
+# https://github.com/github/hub/releases/download/v2.11.1/hub-linux-amd64-2.11.1.tgz
+# Install binary and documentation
+ARG hubpkg=https://github.com/github/hub/releases/download/v2.11.1/hub-linux-amd64-2.11.1.tgz
+RUN wget ${hubpkg}
+RUN tar zvxvf hub-linux-amd64-2.11.1.tgz
+RUN ./hub-linux-amd64-2.11.1/install
+
+# Setup autocomplete for bash:
+#mkdir -p ~/.bash/completions
+#mv ./hub-linux-amd64-2.2.9/etc/hub.bash_completion.sh ~/.bash/completions/_hub
+#echo "if [ -f ~/.bash/completions/_hub ]; then" >> ~/.bashrc
+#echo "    . ~/.bash/completions/_hub" >> ~/.bashrc
+#echo "fi" >> ~/.bashrc
+
+# add alias
+#echo "eval "$(hub alias -s)"" >> ~/.bashrc
+
+# Cleanup
+#rm -rf hub-linux-amd64-2.11.1
