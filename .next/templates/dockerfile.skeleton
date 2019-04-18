@@ -22,6 +22,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 {{ py3 }}
 
+{{ emacs }}
 
 EXPOSE 22
 ENTRYPOINT ["/home/pbrian/ENTRYPOINT.sh"]
