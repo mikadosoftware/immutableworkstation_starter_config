@@ -6,7 +6,7 @@ Babel==2.3.4
 boto3==1.5.29
 botocore==1.8.43
 certifi==2017.7.27.1
-cffi==1.11.4
+cffi
 chardet==3.0.4
 CommonMark==0.5.4
 coverage==4.5.1
@@ -14,7 +14,7 @@ cryptography==2.3
 docopt==0.6.2
 docutils==0.12
 ecdsa==0.13
-Fabric3==1.12.post1
+#Fabric3==1.12.post1
 idna==2.6
 imagesize==0.7.1
 isort==4.3.4
@@ -63,3 +63,4 @@ oauth2client
 spacy
 google-api-python-client
 pyyaml
+black

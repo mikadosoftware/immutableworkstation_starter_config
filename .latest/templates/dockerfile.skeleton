@@ -18,11 +18,11 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 {{ sshX }}
 
-
 {{ user }}
 
 {{ py3 }}
 
+{{ emacs }}
 
 EXPOSE 22
 ENTRYPOINT ["/home/pbrian/ENTRYPOINT.sh"]
