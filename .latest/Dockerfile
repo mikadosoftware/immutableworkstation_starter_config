@@ -33,6 +33,30 @@ RUN apt-get update && \
                        x11-apps \
                        firefox
 
+#: snapd allows easy install of hub, but building one inside a docker seems
+# like a nightmare https://ograblog.wordpress.com/2017/06/02/dock-a-snap/
+# So I still want to use `hub`, so I need another approch
+#
+# https://github.com/github/hub/releases/download/v2.11.1/hub-linux-amd64-2.11.1.tgz
+# Install binary and documentation
+ARG hubpkg=https://github.com/github/hub/releases/download/v2.11.1/hub-linux-amd64-2.11.1.tgz
+RUN wget ${hubpkg}
+RUN tar zvxvf hub-linux-amd64-2.11.1.tgz
+RUN ./hub-linux-amd64-2.11.1/install
+
+# Setup autocomplete for bash:
+#mkdir -p ~/.bash/completions
+#mv ./hub-linux-amd64-2.2.9/etc/hub.bash_completion.sh ~/.bash/completions/_hub
+#echo "if [ -f ~/.bash/completions/_hub ]; then" >> ~/.bashrc
+#echo "    . ~/.bash/completions/_hub" >> ~/.bashrc
+#echo "fi" >> ~/.bashrc
+
+# add alias
+#echo "eval "$(hub alias -s)"" >> ~/.bashrc
+
+# Cleanup
+#rm -rf hub-linux-amd64-2.11.1
+
 
 
 ### {{ baseconfig }}
@@ -50,12 +74,8 @@ RUN apt-get -y install fonts-inconsolata
 ENV TZ=Europe/London
 #not ideal
 ENV DEBIAN_FRONTEND=noninteractive
-RUN DEBIAN_FRONTEND=noninteractive && apt-get install -y tzdata
+RUN DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get install -y tzdata
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-
-RUN apt-get update && apt-get install -y locales
-RUN locale-gen "en_GB.UTF-8"
-
 
 
 
@@ -87,7 +107,6 @@ RUN sed -ri 's/^#X11UseLocalhost\s+.*/X11UseLocalhost no/g' /etc/ssh/sshd_config
 
 
 
-
 ### {{ user }}
 
 
@@ -104,7 +123,7 @@ COPY rcassets/.emacs $USERHOME
 COPY rcassets/.pylintrc $USERHOME
 COPY rcassets/.gitconfig $USERHOME
 COPY rcassets/.ssh $USERHOME/.ssh
-COPY rcassets/.emacs.d $USERHOME/.emacs.d
+#COPY rcassets/.emacs.d $USERHOME/.emacs.d
 #
 COPY rcassets/ENTRYPOINT.sh $USERHOME
 COPY rcassets/ENTRYPOINT.sh $USERHOME
@@ -116,16 +135,16 @@ RUN chmod 0777 $USERHOME/ENTRYPOINT.sh
 ### {{ py3 }}
 
 ###### Install with apt
-RUN apt-get update && apt-get install -y python3.6 \
-                       python3.6-dev \
+RUN apt-get install -y python3.7 \
+                       python3.7-dev \
                        python3-distutils \
                        python3-distlib \
                        python3-pip
 
 ###### symlinking to have `pip` and `python`
 RUN cd /usr/bin \
-       && ln -sf python3.6 python \
-       && ln -sf python3.6 python3 \
+       && ln -sf python3.7 python \
+       && ln -sf python3.7 python3 \
        && ln -sf pip3 pip
 
 #####
@@ -145,12 +164,20 @@ RUN pip install -r $WKDIR/requirements.txt
 # Additonal setup for spacy.  I think this is sensible to do specify in this file them
 RUN python -m spacy download en
 
+# seems ubunut installs pip_internal again mucking things up
 
 # lastly redo symlinks
 RUN rm /usr/bin/python
 RUN ln -s /usr/bin/python3 /usr/bin/python
 
-RUN pip install black
+
+### {{ emacs }}
+
+#USER command in DOCKER to run correctly as me
+USER pbrian
+RUN emacs -nw --script $USERHOME/.emacs 
+USER root
+
 
 EXPOSE 22
 ENTRYPOINT ["/home/pbrian/ENTRYPOINT.sh"]
