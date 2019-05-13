@@ -18,8 +18,7 @@ chmod 0777 -R /home/pbrian/.aws
 ## Add local tools
 cd /var/projects/mkrepo
 python setup.py install
-cd /var/projects/todoinator
-python setup.py install
+
 
 #Now finally start this ready for XForwarding
 /usr/sbin/sshd -D
