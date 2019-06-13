@@ -3,7 +3,8 @@ RUN apt-get install -y python3.7 \
                        python3.7-dev \
                        python3-distutils \
                        python3-distlib \
-                       python3-pip
+                       python3-pip \
+		       python-matplotlib
 
 ###### symlinking to have `pip` and `python`
 RUN cd /usr/bin \
@@ -33,3 +34,4 @@ RUN python -m spacy download en
 # lastly redo symlinks
 RUN rm /usr/bin/python
 RUN ln -s /usr/bin/python3 /usr/bin/python
+

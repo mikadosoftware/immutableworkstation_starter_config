@@ -16,7 +16,8 @@ RUN apt-get update && \
                        software-properties-common \
                        wget curl \
                        x11-apps \
-                       firefox
+                       firefox \
+		       xpdf zathura
 
 #: snapd allows easy install of hub, but building one inside a docker seems
 # like a nightmare https://ograblog.wordpress.com/2017/06/02/dock-a-snap/

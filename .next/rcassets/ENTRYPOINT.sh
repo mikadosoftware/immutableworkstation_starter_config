@@ -19,6 +19,7 @@ chmod 0777 -R /home/pbrian/.aws
 cd /var/projects/mkrepo
 python setup.py install
 
-
+echo "export MOZ_NO_REMOTE=1" >> /home/pbrian/.bashrc
+ 
 #Now finally start this ready for XForwarding
 /usr/sbin/sshd -D

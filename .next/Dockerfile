@@ -63,19 +63,27 @@ RUN ./hub-linux-amd64-2.11.1/install
 
 #################### Misc config ##########################
 ## Locales
-# TBD
+# We dont have any languages setup at this point
+# 
+RUN apt-get update && \
+    apt-get install -y locales && \
+    locale-gen en_GB.UTF-8 && \
+    update-locale LC_ALL=en_GB.UTF-8 LANGUAGE=en_GB.UTF-8
+
+#THis should now work in our terminal (prints Greek for Thank you)
+#python3 -c "print(u''.join([u'\u0395', u'\u03c5', u'\u03c7', u'\u03B1', u'\u03c1', u'\u03B9', u'\u03C3', u'\u03c4', u'\u03c9']))"
 
 ## fonts
 RUN apt-get -y install fonts-inconsolata
 
-
-
-
 ENV TZ=Europe/London
 #not ideal
 ENV DEBIAN_FRONTEND=noninteractive
-RUN DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get install -y tzdata
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN DEBIAN_FRONTEND=noninteractive && \
+    apt-get update && \
+    apt-get install -y tzdata
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
+    echo $TZ > /etc/timezone
 
 
 
@@ -139,7 +147,8 @@ RUN apt-get install -y python3.7 \
                        python3.7-dev \
                        python3-distutils \
                        python3-distlib \
-                       python3-pip
+                       python3-pip \
+		       python-matplotlib
 
 ###### symlinking to have `pip` and `python`
 RUN cd /usr/bin \
@@ -171,12 +180,26 @@ RUN rm /usr/bin/python
 RUN ln -s /usr/bin/python3 /usr/bin/python
 
 
+
+
 ### {{ emacs }}
 
 #USER command in DOCKER to run correctly as me
 USER pbrian
 RUN emacs -nw --script $USERHOME/.emacs 
 USER root
+
+
+
+### {{ latex }}
+
+RUN apt-get install -y texlive-base \
+                       texlive-latex-recommended \
+                       texlive-latex-extra \
+                       texlive-fonts-recommended \
+                       texlive-fonts-extra \
+                       texlive-latex-base \
+                       texlive-font-utils 
 
 
 EXPOSE 22

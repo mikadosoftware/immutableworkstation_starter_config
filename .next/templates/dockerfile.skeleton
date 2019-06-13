@@ -24,6 +24,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 {{ emacs }}
 
+{{ latex }}
+
 EXPOSE 22
 ENTRYPOINT ["/home/pbrian/ENTRYPOINT.sh"]
 
