@@ -10,15 +10,22 @@ chown -R pbrian:pbrian /home/pbrian/
 chown -R pbrian:pbrian /home/pbrian/.ssh
 chmod -R 0700 /home/pbrian/.ssh
  
-###
+# add aws credentials from host to docker
 mkdir /home/pbrian/.aws
 cp -r $SECRETS_VOL/aws-credentials /home/pbrian/.aws/credentials
 chmod 0777 -R /home/pbrian/.aws
+
+# add github 'hub' credentials from host to here
+echo "export GITHUB_TOKEN=`cat /var/secrets/github-token`" >> /home/pbrian/.bashrc
+
 
 ## Add local tools
 cd /var/projects/mkrepo
 python setup.py install
 
+
+
+#: firefox should be run from the docker container so file:// works 
 echo "export MOZ_NO_REMOTE=1" >> /home/pbrian/.bashrc
  
 #Now finally start this ready for XForwarding

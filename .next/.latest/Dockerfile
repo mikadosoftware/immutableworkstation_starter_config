@@ -5,8 +5,6 @@ LABEL Name="pbriandev" Version=0.0.1
 ### Constants
 ENV WKDIR /staging
 ENV USERHOME /home/pbrian
-ENV USERNAME pbrian
-ENV USERFULLNAME "Paul Brian"
 RUN mkdir $WKDIR
 
 #Investigate this more
@@ -72,12 +70,6 @@ RUN apt-get update && \
     apt-get install -y locales && \
     locale-gen en_GB.UTF-8 && \
     update-locale LC_ALL=en_GB.UTF-8 LANGUAGE=en_GB.UTF-8
-#these need to be run in user sections
-#RUN echo "export LC_ALL=en_GB.UTF-8" >> /home/pbrian/.bashrc
-#RUN echo "export LC_LANGUAGE=en_GB.UTF-8" >> /home/pbrian/.bashrc
-
-    
-    
 
 #THis should now work in our terminal (prints Greek for Thank you)
 #python3 -c "print(u''.join([u'\u0395', u'\u03c5', u'\u03c7', u'\u03B1', u'\u03c1', u'\u03B9', u'\u03C3', u'\u03c4', u'\u03c9']))"
@@ -129,13 +121,9 @@ RUN sed -ri 's/^#X11UseLocalhost\s+.*/X11UseLocalhost no/g' /etc/ssh/sshd_config
 
 ### Setup me as only user .... because I will be !
 RUN apt-get install sudo
-RUN useradd -m -c "$USERFULLNAME" $USERNAME --shell /bin/bash 
-RUN usermod -aG sudo $USERNAME
-RUN echo "$USERNAME:$USERNAME" | chpasswd
-
-# change user locale settings (see baseconfig)
-RUN echo "export LC_ALL=en_GB.UTF-8" >> $USERHOME/.bashrc
-RUN echo "export LC_LANGUAGE=en_GB.UTF-8" >> $USERHOME/.bashrc
+RUN useradd -m -c 'Paul Brian' pbrian --shell /bin/bash 
+RUN usermod -aG sudo pbrian
+RUN echo 'pbrian:pbrian' | chpasswd
 
 # This is really just the config settings 
 # any secrfets are added via '/var/secrets' volume per run
@@ -144,6 +132,8 @@ COPY rcassets/.emacs $USERHOME
 COPY rcassets/.pylintrc $USERHOME
 COPY rcassets/.gitconfig $USERHOME
 COPY rcassets/.ssh $USERHOME/.ssh
+#COPY rcassets/.emacs.d $USERHOME/.emacs.d
+#
 COPY rcassets/ENTRYPOINT.sh $USERHOME
 COPY rcassets/ENTRYPOINT.sh $USERHOME
 RUN chmod 0777 $USERHOME/ENTRYPOINT.sh

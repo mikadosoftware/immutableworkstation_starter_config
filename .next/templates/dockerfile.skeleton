@@ -5,6 +5,8 @@ LABEL Name="pbriandev" Version=0.0.1
 ### Constants
 ENV WKDIR /staging
 ENV USERHOME /home/pbrian
+ENV USERNAME pbrian
+ENV USERFULLNAME "Paul Brian"
 RUN mkdir $WKDIR
 
 #Investigate this more

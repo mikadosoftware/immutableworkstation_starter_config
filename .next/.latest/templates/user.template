@@ -1,13 +1,9 @@
 
 ### Setup me as only user .... because I will be !
 RUN apt-get install sudo
-RUN useradd -m -c "$USERFULLNAME" $USERNAME --shell /bin/bash 
-RUN usermod -aG sudo $USERNAME
-RUN echo "$USERNAME:$USERNAME" | chpasswd
-
-# change user locale settings (see baseconfig)
-RUN echo "export LC_ALL=en_GB.UTF-8" >> $USERHOME/.bashrc
-RUN echo "export LC_LANGUAGE=en_GB.UTF-8" >> $USERHOME/.bashrc
+RUN useradd -m -c 'Paul Brian' pbrian --shell /bin/bash 
+RUN usermod -aG sudo pbrian
+RUN echo 'pbrian:pbrian' | chpasswd
 
 # This is really just the config settings 
 # any secrfets are added via '/var/secrets' volume per run
@@ -16,6 +12,8 @@ COPY rcassets/.emacs $USERHOME
 COPY rcassets/.pylintrc $USERHOME
 COPY rcassets/.gitconfig $USERHOME
 COPY rcassets/.ssh $USERHOME/.ssh
+#COPY rcassets/.emacs.d $USERHOME/.emacs.d
+#
 COPY rcassets/ENTRYPOINT.sh $USERHOME
 COPY rcassets/ENTRYPOINT.sh $USERHOME
 RUN chmod 0777 $USERHOME/ENTRYPOINT.sh

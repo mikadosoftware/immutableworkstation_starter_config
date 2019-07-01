@@ -5,20 +5,26 @@ LABEL Name="pbriandev" Version=0.0.1
 ### Constants
 ENV WKDIR /staging
 ENV USERHOME /home/pbrian
+RUN mkdir $WKDIR
+
+#Investigate this more
+ENV DEBIAN_FRONTEND=noninteractive
 
 {{ apt }}
 
-{{ py3 }}
+{{ baseconfig }}
+
+{{ otherdevtools }}
 
 {{ sshX }}
 
-{{ latex }}
-
 {{ user }}
 
-{{ baseconfig }}
+{{ py3 }}
 
+{{ emacs }}
 
+{{ latex }}
 
 EXPOSE 22
 ENTRYPOINT ["/home/pbrian/ENTRYPOINT.sh"]
