@@ -20,8 +20,8 @@ echo "export GITHUB_TOKEN=`cat /var/secrets/github-token`" >> /home/pbrian/.bash
 
 
 ## Add local tools
-cd /var/projects/mkrepo
-python setup.py install
+#cd /var/projects/mkrepo
+#python setup.py install
 
 
 
