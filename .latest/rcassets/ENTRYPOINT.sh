@@ -12,16 +12,16 @@ chmod -R 0700 /home/pbrian/.ssh
  
 # add aws credentials from host to docker
 mkdir /home/pbrian/.aws
+chmod 0622 -R /home/pbrian/.aws
 cp -r $SECRETS_VOL/aws-credentials /home/pbrian/.aws/credentials
-chmod 0777 -R /home/pbrian/.aws
 
 # add github 'hub' credentials from host to here
 echo "export GITHUB_TOKEN=`cat /var/secrets/github-token`" >> /home/pbrian/.bashrc
 
 
 ## Add local tools
-cd /var/projects/mkrepo
-python setup.py install
+#cd /var/projects/mkrepo
+#python setup.py install
 
 
 

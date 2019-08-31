@@ -70,3 +70,5 @@ twine
 pillow
 pyotp
 matplotlib
+pelican
+dnspython
