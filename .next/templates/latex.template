@@ -4,4 +4,5 @@ RUN apt-get install -y texlive-base \
                        texlive-fonts-recommended \
                        texlive-fonts-extra \
                        texlive-latex-base \
-                       texlive-font-utils 
+                       texlive-font-utils && \
+     apt-get clean

@@ -4,7 +4,8 @@ RUN apt-get install -y python3.7 \
                        python3-distutils \
                        python3-distlib \
                        python3-pip \
-		       python-matplotlib
+		       python-matplotlib && \
+		       apt-get clean
 
 ###### symlinking to have `pip` and `python`
 RUN cd /usr/bin \

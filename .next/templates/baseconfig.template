@@ -5,7 +5,9 @@
 RUN apt-get update && \
     apt-get install -y locales && \
     locale-gen en_GB.UTF-8 && \
-    update-locale LC_ALL=en_GB.UTF-8 LANGUAGE=en_GB.UTF-8
+    update-locale LC_ALL=en_GB.UTF-8 LANGUAGE=en_GB.UTF-8 && \
+    apt-get clean
+    
 #these need to be run in user sections
 #RUN echo "export LC_ALL=en_GB.UTF-8" >> /home/pbrian/.bashrc
 #RUN echo "export LC_LANGUAGE=en_GB.UTF-8" >> /home/pbrian/.bashrc

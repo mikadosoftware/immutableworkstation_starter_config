@@ -34,7 +34,10 @@ RUN apt-get update && \
                        wget curl \
                        x11-apps \
                        firefox \
-		       xpdf zathura
+		       xpdf \
+		       zathura && \
+	apt-get clean
+    
 
 #: snapd allows easy install of hub, but building one inside a docker seems
 # like a nightmare https://ograblog.wordpress.com/2017/06/02/dock-a-snap/
@@ -71,7 +74,9 @@ RUN ./hub-linux-amd64-2.11.1/install
 RUN apt-get update && \
     apt-get install -y locales && \
     locale-gen en_GB.UTF-8 && \
-    update-locale LC_ALL=en_GB.UTF-8 LANGUAGE=en_GB.UTF-8
+    update-locale LC_ALL=en_GB.UTF-8 LANGUAGE=en_GB.UTF-8 && \
+    apt-get clean
+    
 #these need to be run in user sections
 #RUN echo "export LC_ALL=en_GB.UTF-8" >> /home/pbrian/.bashrc
 #RUN echo "export LC_LANGUAGE=en_GB.UTF-8" >> /home/pbrian/.bashrc
@@ -100,13 +105,8 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
 
 
 ### Other Dev Tools
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
-RUN apt-get install -y \
-                        nodejs \
-			whois
-RUN npm install -g create-react-app
-# this has to be done when instance is running ...
-# RUN cd /var/projects/learnreact && create-react-app test1
+RUN apt-get install -y	whois
+
 
 
 
@@ -161,7 +161,8 @@ RUN apt-get install -y python3.7 \
                        python3-distutils \
                        python3-distlib \
                        python3-pip \
-		       python-matplotlib
+		       python-matplotlib && \
+		       apt-get clean
 
 ###### symlinking to have `pip` and `python`
 RUN cd /usr/bin \
@@ -212,7 +213,8 @@ RUN apt-get install -y texlive-base \
                        texlive-fonts-recommended \
                        texlive-fonts-extra \
                        texlive-latex-base \
-                       texlive-font-utils 
+                       texlive-font-utils && \
+     apt-get clean
 
 
 EXPOSE 22
