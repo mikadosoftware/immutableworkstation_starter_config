@@ -29,7 +29,7 @@ MarkupSafe==0.23
 mccabe==0.6.1
 MiniMock==1.2.8
 more-itertools==4.1.0
-paramiko==2.0.9
+paramiko==2.10.1
 pluggy==0.6.0
 purepng==0.2.0
 py==1.5.3
